@@ -6,9 +6,9 @@
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
-    <licenseUrl>https://raw.githubusercontent.com/Jarlotee/DeployOnce/master/license.txt</licenseUrl>
-    <projectUrl>https://github.com/Jarlotee/DeployOnce</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/Jarlotee/DeployOnce/master/docs/img/nuget-icon.png</iconUrl>
+    <licenseUrl>https://raw.githubusercontent.com/Jarlotee/BuildOnce/master/license.txt</licenseUrl>
+    <projectUrl>https://github.com/Jarlotee/BuildOnce</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/Jarlotee/BuildOnce/master/docs/img/nuget-icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes>Initial Release</releaseNotes>
