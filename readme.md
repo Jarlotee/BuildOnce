@@ -4,7 +4,8 @@ Continuous delivery norms and the Visual Studio toolset encourage developers to 
 This typically leads to re-executing the build, unit test and packages steps for each environment.
 This ineficiency can have reprocusions to your build infrastructure and create a bottleneck in your delivery pipeline.  
 
-BuildOnce allows you to transform all your configuration files into the required environment targets as part of your build. 
+BuildOnce allows you to transform all your configuration files into the required environment targets as part of your build!
+
 This enables you to then combine the bits and config as needed for each environment without the need to rebuild and re-run unit tests and thus make you a CI rock :star:.
 
 ## Installation
