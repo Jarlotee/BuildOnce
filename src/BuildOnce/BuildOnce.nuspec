@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://raw.githubusercontent.com/Jarlotee/DeployOnce/master/license.txt</licenseUrl>
+    <projectUrl>https://github.com/Jarlotee/DeployOnce</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/Jarlotee/DeployOnce/master/docs/img/nuget-icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>Initial Release</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>CI CD Config Transform</tags>
+  </metadata>
+  <files>
+    <file src="bin/Release/Microsoft.Web.XmlTransform.dll" target="lib/net45" />
+    <file src="build/BuildOnce.props" target="build" />
+    <file src="build/BuildOnce.targets" target="build" />
+  </files>
+</package>
