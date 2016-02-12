@@ -57,7 +57,7 @@ Make sure you save the changes to your project file! When VS restarts it will de
 If they are out of sync you will receive an error telling you to correct the issue.
 
 ## Version
-* BuildOnce 0.1.0
+* BuildOnce 0.2.0
 
 ## License
 MIT
