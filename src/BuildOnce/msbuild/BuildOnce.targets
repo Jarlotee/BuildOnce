@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  
+  <ItemGroup>
+    <BuildOnceLibrary Include="$(NuGetPackageDirectory)\**\BuildOnce.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Sources Include="@(Content)" />
+    <Sources Include="@(ServiceDefinition)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Transforms Include="@(None)" />
+  </ItemGroup>
+  
+  <Target Name="ValidateBuildOnceLibrary">
+    <Error Condition="'@(BuildOnceLibrary->Count())' &gt; 1" Text="Multiple versions of BuildOnce.dll have been found in the packages directory, please update dependencies to the same version" />
+    <Error Condition="'@(BuildOnceLibrary->Count())' == '0'" Text="Unable to find the BuildOnce.dll in the packages folder" />
+    <Message Condition="'@(BuildOnceLibrary->Count())' == '1'" Text="Using BuildOnce Library at: '@(BuildOnceLibrary->'%(FullPath)')'" Importance="high" />
+  </Target>
+  
+  <UsingTask TaskName="TransformConfigTask" AssemblyFile="@(BuildOnceLibrary->'%(FullPath)')" Condition="'@(BuildOnceLibrary->Count())' == '1'" />
+  
+  <Target Name="TransformConfig" AfterTargets="AfterBuild" Condition="'$(DeployOnceEnabled)' == 'True' And '@(BuildOnceLibrary->Count())' == '1'" DependsOnTargets="ValidateBuildOnceLibrary" >
+    <TransformConfigTask Sources="@(Sources)" Transforms="@(Transforms)" OutputPath="$(DeployOnceOutputPath)" />
+  </Target>
+  
+  <Target Name="CleanTransformOutput" AfterTargets="Clean" Condition="'$(BuildOnceRemoveOutputOnClean)' == 'True'">
+    <RemoveDir Directories="$(DeployOnceOutputPath)" />
+  </Target>
+  
+</Project>

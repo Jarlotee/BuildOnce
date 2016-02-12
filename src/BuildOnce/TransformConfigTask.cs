@@ -8,9 +8,9 @@ namespace BuildOnce
     public class TransformConfigTask : Task
     {
         [Required]
-        public ITaskItem[] Content { get; set; }
+        public ITaskItem[] Sources { get; set; }
         [Required]
-        public ITaskItem[] None { get; set; }
+        public ITaskItem[] Transforms { get; set; }
         [Required]
         public string OutputPath { get; set; }
 
@@ -24,12 +24,12 @@ namespace BuildOnce
         public override bool Execute()
         {
             var isSuccesful = true;
-            var NoneList = None.ToList();
-            var ContentList = Content.ToList();
+            var TransformList = Transforms.ToList();
+            var SourceList = Sources.ToList();
 
             Log.LogMessage("Config Dependency Tree");
 
-            NoneList.ForEach(t =>
+            TransformList.ForEach(t =>
             {
                 var dependentMeta = t.GetMetadata("DependentUpon");
 
@@ -40,7 +40,7 @@ namespace BuildOnce
                         dependentMeta = t.GetMetadata("RelativeDir") + dependentMeta;
                     }
 
-                    var dependency = ContentList
+                    var dependency = SourceList
                         .Where(c => c.ItemSpec.Equals(dependentMeta, StringComparison.OrdinalIgnoreCase))
                         .FirstOrDefault();
 
@@ -69,9 +69,14 @@ namespace BuildOnce
             foreach (var item in Tree)
             {
                 if (item.Key.GetMetadata("Extension").Equals(".config", StringComparison.OrdinalIgnoreCase) ||
-                    item.Key.GetMetadata("Extension").Equals(".xml", StringComparison.OrdinalIgnoreCase))
+                    item.Key.GetMetadata("Extension").Equals(".xml", StringComparison.OrdinalIgnoreCase) ||
+                    item.Key.GetMetadata("Extension").Equals(".csdef", StringComparison.OrdinalIgnoreCase))
                 {
                     xmlTransformer.Transform(item, OutputPath);
+                }
+                else
+                {
+                    Log.LogWarning("Unable to transform unknown file type {0}", item.Key.GetMetadata("Extension"));
                 }
             }
             
