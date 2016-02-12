@@ -51,10 +51,10 @@
     <Compile Include="XmlTransformer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="build\BuildOnce.props">
+    <None Include="msbuild\BuildOnce.props">
       <SubType>Designer</SubType>
     </None>
-    <None Include="build\BuildOnce.targets" />
+    <None Include="msbuild\BuildOnce.targets" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
