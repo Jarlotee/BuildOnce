@@ -2,7 +2,6 @@
 using Microsoft.Web.XmlTransform;
 using System;
 using System.IO;
-using System.Linq;
 
 namespace BuildOnce
 {
@@ -11,7 +10,7 @@ namespace BuildOnce
         /// <summary>
         /// Executes transforms for all configuration detected
         /// </summary>
-        public void Transform(Tree<ITaskItem> tree, string outputPath)
+        public void Transform(Tree<ITaskItem> tree, string outputPath, string assemblyName, string outputType)
         {
             foreach (var branch in tree)
             {
@@ -19,40 +18,19 @@ namespace BuildOnce
 
                 var sourcePath = tree.Key.GetMetadata("FullPath");
                 var transformPath = branch.Key.GetMetadata("FullPath");
+
+                var isAppConfig = string.Format("{0}{1}", 
+                    tree.Key.GetMetadata("Filename"), 
+                    tree.Key.GetMetadata("Extension")).Equals("app.config", StringComparison.OrdinalIgnoreCase);
+
+                var assemblyExtenion = outputType.Equals("Library", StringComparison.OrdinalIgnoreCase) ? ".dll" :
+                    ".exe";
+
                 var destinationPath = string.Format("{0}//{1}//{2}{3}{4}",
                     outputPath,
                     targetTransform,
                     tree.Key.GetMetadata("RelativeDir"),
-                    tree.Key.GetMetadata("Filename"),
-                    tree.Key.GetMetadata("Extension"));
-
-                TransformXML(sourcePath, transformPath, destinationPath);
-            }
-        }
-
-        /// <summary>
-        /// Executes transforms for a single configuration
-        /// </summary>
-        public void Transform(Tree<ITaskItem> tree, string outputPath, string targetConfiguration)
-        {
-            var target = string.Format("{0}{1}.{2}{3}",
-                    tree.Key.GetMetadata("RelativeDir"),
-                    tree.Key.GetMetadata("Filename"),
-                    targetConfiguration,
-                    tree.Key.GetMetadata("Extension"));
-
-
-            var transformItem = tree.Where(k => k.Key.ItemSpec.Equals(target, StringComparison.OrdinalIgnoreCase))
-                .FirstOrDefault();
-
-            if (transformItem != null)
-            {
-                var sourcePath = tree.Key.GetMetadata("FullPath");
-                var transformPath = transformItem.Key.GetMetadata("FullPath");
-                var destinationPath = string.Format("{0}{1}{2}{3}",
-                    outputPath,
-                    tree.Key.GetMetadata("RelativeDir"),
-                    tree.Key.GetMetadata("Filename"),
+                    isAppConfig ? assemblyName + assemblyExtenion : tree.Key.GetMetadata("Filename"),
                     tree.Key.GetMetadata("Extension"));
 
                 TransformXML(sourcePath, transformPath, destinationPath);

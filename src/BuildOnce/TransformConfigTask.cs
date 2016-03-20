@@ -13,6 +13,10 @@ namespace BuildOnce
         public ITaskItem[] Transforms { get; set; }
         [Required]
         public string OutputPath { get; set; }
+        [Required]
+        public string AssemblyName { get; set; }
+        [Required]
+        public string OutputType { get; set; }
 
         public Tree<ITaskItem> Tree { get; set; }
 
@@ -42,6 +46,9 @@ namespace BuildOnce
 
                     var dependency = SourceList
                         .Where(c => c.ItemSpec.Equals(dependentMeta, StringComparison.OrdinalIgnoreCase))
+                        .FirstOrDefault() ??
+                        Transforms
+                        .Where(c => c.ItemSpec.Equals(dependentMeta, StringComparison.OrdinalIgnoreCase))
                         .FirstOrDefault();
 
                     if (dependency == null)
@@ -62,6 +69,11 @@ namespace BuildOnce
                 }
             });
 
+            if (!isSuccesful)
+            {
+                return false;
+            }
+
             Log.LogMessage(Tree.ToString(0));
 
             var xmlTransformer = new XmlTransfomer();
@@ -72,7 +84,7 @@ namespace BuildOnce
                     item.Key.GetMetadata("Extension").Equals(".xml", StringComparison.OrdinalIgnoreCase) ||
                     item.Key.GetMetadata("Extension").Equals(".csdef", StringComparison.OrdinalIgnoreCase))
                 {
-                    xmlTransformer.Transform(item, OutputPath);
+                    xmlTransformer.Transform(item, OutputPath, AssemblyName, OutputType);
                 }
                 else
                 {
