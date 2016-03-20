@@ -16,7 +16,7 @@
     <tags>CI CD Config Transform</tags>
   </metadata>
   <files>
-    <file src="bin/Release/Microsoft.Web.XmlTransform.dll" target="lib/net45" />
+    <file src="bin/Release/Microsoft.Web.XmlTransform.dll" target="tools" />
     <file src="msbuild/BuildOnce.props" target="build" />
     <file src="msbuild/BuildOnce.targets" target="build" />
   </files>

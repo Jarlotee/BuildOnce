@@ -23,7 +23,7 @@
   <UsingTask TaskName="TransformConfigTask" AssemblyFile="@(BuildOnceLibrary->'%(FullPath)')" Condition="'@(BuildOnceLibrary->Count())' == '1'" />
   
   <Target Name="TransformConfig" AfterTargets="AfterBuild" Condition="'$(DeployOnceEnabled)' == 'True' And '@(BuildOnceLibrary->Count())' == '1'" DependsOnTargets="ValidateBuildOnceLibrary" >
-    <TransformConfigTask Sources="@(Sources)" Transforms="@(Transforms)" OutputPath="$(DeployOnceOutputPath)" />
+    <TransformConfigTask Sources="@(Sources)" Transforms="@(Transforms)" OutputPath="$(DeployOnceOutputPath)" AssemblyName="$(AssemblyName)" OutputType="$(OutputType)" />
   </Target>
   
   <Target Name="CleanTransformOutput" AfterTargets="Clean" Condition="'$(BuildOnceRemoveOutputOnClean)' == 'True'">
