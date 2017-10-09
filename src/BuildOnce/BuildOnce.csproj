@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileOverrider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TransformConfigTask.cs" />
     <Compile Include="Tree.cs" />

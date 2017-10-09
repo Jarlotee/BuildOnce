@@ -49,17 +49,19 @@ If for some reason you have a different setup you can handle it by:
 * Set the property in your project file `<NuGetPackageDirectory>NuGetPackageDirectory</NuGetPackageDirectory>`
 
 ## Known Issues
+
 1) Visual Studio tends to hold on to the BuildOnce.dll that serves the custom msbuild task. 
 When you remove/upgrade the package you may experience a delay and a message that Nuget was unable to completely uninstall the package with a prompt to restart.
 Make sure you save the changes to your project file! When VS restarts it will delete the finish deleting the unused package folder.
-
-2) Due to msbuild discovery process DeployOnce cannot support multiple versions within a solution. 
+1) Due to msbuild discovery process DeployOnce cannot support multiple versions within a solution. 
 If they are out of sync you will receive an error telling you to correct the issue.
 
 ## Version
-* BuildOnce 0.3.0
+
+* BuildOnce 0.4.0
 
 ## License
+
 MIT
 
 [library]:https://www.nuget.org/packages/BuildOnce/

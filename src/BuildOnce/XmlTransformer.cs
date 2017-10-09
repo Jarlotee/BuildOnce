@@ -5,12 +5,12 @@ using System.IO;
 
 namespace BuildOnce
 {
-    public class XmlTransfomer
+    public static class XmlTransfomer
     {
         /// <summary>
         /// Executes transforms for all configuration detected
         /// </summary>
-        public void Transform(Tree<ITaskItem> tree, string outputPath, string assemblyName, string outputType)
+        public static void Handle(Tree<ITaskItem> tree, string outputPath, string assemblyName, string outputType)
         {
             foreach (var branch in tree)
             {
@@ -37,7 +37,7 @@ namespace BuildOnce
             }
         }
 
-        private void TransformXML(string sourcePath, string transformPath, string destinationPath)
+        private static void TransformXML(string sourcePath, string transformPath, string destinationPath)
         {
             if (!File.Exists(sourcePath))
             {

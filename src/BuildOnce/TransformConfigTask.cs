@@ -76,25 +76,27 @@ namespace BuildOnce
 
             Log.LogMessage(Tree.ToString(0));
 
-            var xmlTransformer = new XmlTransfomer();
-
             foreach (var item in Tree)
             {
                 if (item.Key.GetMetadata("Extension").Equals(".config", StringComparison.OrdinalIgnoreCase) ||
                     item.Key.GetMetadata("Extension").Equals(".xml", StringComparison.OrdinalIgnoreCase) ||
                     item.Key.GetMetadata("Extension").Equals(".csdef", StringComparison.OrdinalIgnoreCase))
                 {
-                    xmlTransformer.Transform(item, OutputPath, AssemblyName, OutputType);
+                    XmlTransfomer.Handle(item, OutputPath, AssemblyName, OutputType);
+                }
+                else if (item.Key.GetMetadata("Extension").Equals(".txt", StringComparison.OrdinalIgnoreCase))
+                {
+                    FileOverrider.Handle(item, OutputPath, OutputType);
                 }
                 else
                 {
                     Log.LogWarning("Unable to transform unknown file type {0}", item.Key.GetMetadata("Extension"));
                 }
             }
-            
-            if(isSuccesful)
+
+            if (isSuccesful)
             {
-                Log.LogMessage(MessageImportance.High, "BuildOnce transforms were generated successfully and sent to '{0}'", OutputPath);           
+                Log.LogMessage(MessageImportance.High, "BuildOnce transforms were generated successfully and sent to '{0}'", OutputPath);
             }
 
             return isSuccesful;
